@@ -1,0 +1,14 @@
+{
+  "routesTotal": 0,
+  "mcpToolsTotal": 1,
+  "toolsWithSchemas": 0,
+  "coveragePct": 0,
+  "validators": [],
+  "gaps": [
+    {
+      "tool": "sm",
+      "reason": "No input schema validation beyond basic JSON schema type checking. Arguments dict is validated for required 'shortcut' key but no validation of shortcut name or context content."
+    }
+  ],
+  "notes": "MCP tool uses basic JSON schema for type definitions but no runtime validation library. Input validation is minimal: only checks for required 'shortcut' argument, validates existence in shortcuts dict, but no validation of shortcut content or context parameter."
+}

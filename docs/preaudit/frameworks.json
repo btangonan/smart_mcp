@@ -1,0 +1,18 @@
+{
+  "webFrameworks": [],
+  "routeFiles": [],
+  "nonHttpIO": ["mcp-stdio"],
+  "validatorsObserved": ["none"],
+  "mcpTools": [
+    {
+      "name": "sm",
+      "handler": "handle_call_tool",
+      "path": "smart_mcp.py:81",
+      "inputSchema": {
+        "shortcut": "string (required)",
+        "context": "string (optional)"
+      }
+    }
+  ],
+  "notes": "MCP server architecture with stdio transport. Single 'sm' tool for executing instruction shortcuts. No HTTP routes or web framework. No input validation beyond basic type checking."
+}

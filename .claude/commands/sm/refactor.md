@@ -7,7 +7,7 @@ mcp-servers: [sequential]
 personas: [architect, refactoring-expert, qa-specialist]
 ---
 
-# /sm:refactor - Surgical Code Refactoring
+# /refactor - Surgical Code Refactoring (Smart MCP)
 
 > **Smart MCP Note**: This command invokes the `sm` MCP tool with the `refactor` shortcut, which provides a comprehensive surgical refactoring framework with golden-master testing and fitness functions.
 
@@ -19,12 +19,12 @@ personas: [architect, refactoring-expert, qa-specialist]
 
 ## Usage
 ```
-/sm:refactor [context]
+/refactor [context]
 
 # Examples:
-/sm:refactor                           # Analyze current context
-/sm:refactor authentication logic      # Focus on specific area
-/sm:refactor src/core/payments.ts      # Target specific file
+/refactor                           # Analyze current context
+/refactor authentication logic      # Focus on specific area
+/refactor src/core/payments.ts      # Target specific file
 ```
 
 ## Behavioral Flow
@@ -97,7 +97,7 @@ Add structured logs around old vs new paths with correlationId; count mismatches
 
 ### Authentication Module Refactor
 ```
-/sm:refactor authentication logic
+/refactor authentication logic
 
 1. Detect smells: auth.ts 847 LOC, mixed concerns
 2. Extract core: Business rules → src/core/auth/
@@ -110,7 +110,7 @@ Add structured logs around old vs new paths with correlationId; count mismatches
 
 ### Payment Processing Cleanup
 ```
-/sm:refactor src/core/payments.ts
+/refactor src/core/payments.ts
 
 Code smells identified:
 - payments.ts: 612 LOC (split into 3 files)

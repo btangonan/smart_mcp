@@ -1,0 +1,7 @@
+{
+  "workflows": [],
+  "testGates": false,
+  "coverageGates": false,
+  "cacheUsage": false,
+  "notes": "No CI/CD infrastructure detected. No GitHub Actions, no automated testing, no deployment pipelines."
+}

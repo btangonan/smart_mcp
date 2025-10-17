@@ -6,22 +6,24 @@ After restarting Claude Code, these commands will be available.
 
 ## Available Commands
 
-### `/sm:debug [task]`
+### `/debug [task]`
 **Description**: World-class codebase auditor with 7-step structured debugging process
+**Namespace**: Smart MCP (shows as "project:sm" in help)
 
 **Usage**:
 ```
-/sm:debug fix authentication timeout in login.py
-/sm:debug resolve memory leak in data processor
+/debug fix authentication timeout in login.py
+/debug resolve memory leak in data processor
 ```
 
-### `/sm:refactor [context]`
+### `/refactor [context]`
 **Description**: Surgical refactoring with golden-master testing and fitness functions
+**Namespace**: Smart MCP (shows as "project:sm" in help)
 
 **Usage**:
 ```
-/sm:refactor
-/sm:refactor authentication logic
+/refactor
+/refactor authentication logic
 ```
 
 **What it does**:
@@ -32,12 +34,13 @@ After restarting Claude Code, these commands will be available.
 - Strangler pattern: Build new pure modules, shim old paths, remove after parity
 - Outputs: docs/refactor/smells.md, decisions.md, golden-master/ fixtures
 
-### `/sm:audit`
+### `/audit`
 **Description**: Comprehensive repository self-assessment sweep with maturity scoring
+**Namespace**: Smart MCP (shows as "project:sm" in help)
 
 **Usage**:
 ```
-/sm:audit
+/audit
 ```
 
 **What it does**:
@@ -61,10 +64,12 @@ This structure mirrors SuperClaude's command format for consistency and clarity.
 ## Adding New Commands
 
 To add a new slash command:
-1. Add the shortcut to `shortcuts.json`
-2. Create a new `.md` file in this directory: `sm:yourcommand.md`
+1. Add the shortcut to `shortcuts.json` in the project root
+2. Create a new `.md` file in the `sm/` subdirectory: `sm/yourcommand.md`
 3. Add the instruction: `Use the sm tool with shortcut='yourcommand' and context='$ARGS'`
 4. Restart Claude Code
 
+**Note**: Commands are organized in the `sm/` subdirectory for namespace clarity. They appear in help text as "(project:sm)" to distinguish them from global commands.
+
 ## Location
-`/Users/bradleytangonan/Desktop/my apps/smart_mcp/.claude/commands/`
+`/Users/bradleytangonan/Desktop/my apps/smart_mcp/.claude/commands/sm/`

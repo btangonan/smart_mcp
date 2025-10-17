@@ -1,0 +1,19 @@
+{
+  "detectedRepoType": "single",
+  "workspaceManagers": ["pip", "setuptools"],
+  "languages": [
+    {
+      "lang": "python",
+      "files": 1,
+      "loc": 145
+    },
+    {
+      "lang": "markdown",
+      "files": 7,
+      "loc": 453
+    }
+  ],
+  "frameworkHints": ["mcp"],
+  "infraHints": [],
+  "notes": "Single Python MCP server with custom shortcuts system. No web framework. Uses MCP SDK for stdio server. Slash commands in .claude/commands/sm/"
+}

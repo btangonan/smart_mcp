@@ -7,7 +7,7 @@ mcp-servers: [sequential]
 personas: [analyzer, architect, security]
 ---
 
-# /sm:audit - Repository Self-Assessment
+# /audit - Repository Self-Assessment (Smart MCP)
 
 > **Smart MCP Note**: This command invokes the `sm` MCP tool with the `audit` shortcut, which provides an 8-stage repository analysis framework with evidence-based findings and maturity scoring.
 
@@ -19,7 +19,7 @@ personas: [analyzer, architect, security]
 
 ## Usage
 ```
-/sm:audit
+/audit
 
 # This is a standalone command requiring no arguments
 # Analyzes the entire repository across 8 dimensions
@@ -135,7 +135,7 @@ Compute 0-3 maturity scores across 6 dimensions with evidence-based rationale
 
 ### Startup Readiness Assessment
 ```
-/sm:audit
+/audit
 
 Repo Shape: Single repo, TypeScript/Python, Fastify + Flask
 LOC Discipline: Score 2 (8 files >300 LOC, largest 487 LOC)
@@ -158,7 +158,7 @@ Top 3 Strengths:
 
 ### Enterprise Migration Baseline
 ```
-/sm:audit
+/audit
 
 Establishes maturity baseline before modernization:
 - 247 files, 89 >300 LOC (LOC score: 0)

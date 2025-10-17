@@ -1,0 +1,15 @@
+[
+  {"path": "./README.md", "lang": "markdown", "loc": 225},
+  {"path": "./.claude/commands/sm/audit.md", "lang": "markdown", "loc": 200},
+  {"path": "./.claude/commands/sm/refactor.md", "lang": "markdown", "loc": 148},
+  {"path": "./smart_mcp.py", "lang": "python", "loc": 145},
+  {"path": "./.claude/commands/sm/debug.md", "lang": "markdown", "loc": 105},
+  {"path": "./.claude/commands/README.md", "lang": "markdown", "loc": 75},
+  {"path": "./CLAUDE.md", "lang": "markdown", "loc": 70},
+  {"path": "./claudedocs/INIT_INSTRUCTIONS.md", "lang": "markdown", "loc": 63},
+  {"path": "./.claude/settings.local.json", "lang": "json", "loc": 41},
+  {"path": "./MEMORY_CHECKPOINT_REMINDER.md", "lang": "markdown", "loc": 40},
+  {"path": "./.mcp.json", "lang": "json", "loc": 35},
+  {"path": "./shortcuts.json", "lang": "json", "loc": 16},
+  {"path": "./pyproject.toml", "lang": "toml", "loc": 16}
+]

@@ -2,9 +2,15 @@
 """
 Smart MCP - Dead Simple MCP Server for Custom Shortcuts
 Provides reusable instruction shortcuts via a single MCP tool
+
+Global Architecture:
+- Global shortcuts: ~/.claude/smart_mcp/shortcuts.json (base defaults)
+- Project shortcuts: $CWD/shortcuts.json (project overrides)
+- Merge strategy: Project-local overrides global
 """
 
 import json
+import os
 import sys
 from pathlib import Path
 from typing import Any
@@ -18,22 +24,58 @@ import mcp.server.stdio
 # Initialize the MCP server
 server = Server("smart-mcp")
 
-# Load shortcuts from JSON file
-SHORTCUTS_FILE = Path(__file__).parent / "shortcuts.json"
+# Global shortcuts location
+GLOBAL_SHORTCUTS_DIR = Path.home() / ".claude" / "smart_mcp"
+GLOBAL_SHORTCUTS_FILE = GLOBAL_SHORTCUTS_DIR / "shortcuts.json"
+
+
+def load_shortcuts_from_file(file_path: Path) -> dict[str, dict[str, str]]:
+    """Load shortcuts from a specific JSON file."""
+    try:
+        if not file_path.exists():
+            return {}
+
+        with open(file_path, 'r') as f:
+            data = json.load(f)
+            return data.get("shortcuts", {})
+    except json.JSONDecodeError as e:
+        print(f"Error parsing {file_path}: {e}", file=sys.stderr)
+        return {}
+    except Exception as e:
+        print(f"Error loading {file_path}: {e}", file=sys.stderr)
+        return {}
 
 
 def load_shortcuts() -> dict[str, dict[str, str]]:
-    """Load shortcuts from JSON file."""
-    try:
-        with open(SHORTCUTS_FILE, 'r') as f:
-            data = json.load(f)
-            return data.get("shortcuts", {})
-    except FileNotFoundError:
-        print(f"Error: shortcuts.json not found at {SHORTCUTS_FILE}", file=sys.stderr)
-        return {}
-    except json.JSONDecodeError as e:
-        print(f"Error parsing shortcuts.json: {e}", file=sys.stderr)
-        return {}
+    """
+    Load shortcuts with hierarchical merging.
+
+    Load order (later overrides earlier):
+    1. Global: ~/.claude/smart_mcp/shortcuts.json
+    2. Project: $CWD/shortcuts.json
+
+    Returns merged shortcuts dictionary.
+    """
+    # Start with global shortcuts (base defaults)
+    shortcuts = load_shortcuts_from_file(GLOBAL_SHORTCUTS_FILE)
+
+    # Load project-local shortcuts (overrides)
+    project_shortcuts_file = Path.cwd() / "shortcuts.json"
+    project_shortcuts = load_shortcuts_from_file(project_shortcuts_file)
+
+    # Merge: project overrides global
+    shortcuts.update(project_shortcuts)
+
+    # Log which files were loaded (for debugging)
+    if shortcuts:
+        sources = []
+        if GLOBAL_SHORTCUTS_FILE.exists():
+            sources.append("global")
+        if project_shortcuts_file.exists():
+            sources.append("project-local")
+        print(f"Smart MCP: Loaded shortcuts from {', '.join(sources) if sources else 'none'}", file=sys.stderr)
+
+    return shortcuts
 
 
 @server.list_tools()

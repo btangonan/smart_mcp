@@ -7,7 +7,7 @@ mcp-servers: [sequential]
 personas: [auditor, architect, security]
 ---
 
-# /sm:debug - Systematic Debugging & Root Cause Analysis
+# /debug - Systematic Debugging & Root Cause Analysis (Smart MCP)
 
 > **Smart MCP Note**: This command invokes the `sm` MCP tool with the `debug` shortcut, which provides a comprehensive 7-step debugging framework for systematic problem resolution.
 
@@ -19,12 +19,12 @@ personas: [auditor, architect, security]
 
 ## Usage
 ```
-/sm:debug [task description]
+/debug [task description]
 
 # Examples:
-/sm:debug fix authentication timeout in login.py
-/sm:debug resolve memory leak in data processor
-/sm:debug investigate why API returns 500 on large payloads
+/debug fix authentication timeout in login.py
+/debug resolve memory leak in data processor
+/debug investigate why API returns 500 on large payloads
 ```
 
 ## Behavioral Flow (7-Step Process)
@@ -63,7 +63,7 @@ Key behaviors:
 
 ### Authentication Timeout Debug
 ```
-/sm:debug fix authentication timeout in login.py
+/debug fix authentication timeout in login.py
 
 Step 1 - Define: JWT token validation timing out after 30s in production
 Step 2 - Investigate: Check token expiry, network latency, DB query times
@@ -76,7 +76,7 @@ Step 7 - Execute: [implementation with tests]
 
 ### Memory Leak Investigation
 ```
-/sm:debug resolve memory leak in data processor
+/debug resolve memory leak in data processor
 
 Systematic investigation of heap growth patterns
 Environment checks: Node version, V8 flags, container limits
