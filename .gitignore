@@ -1,0 +1,26 @@
+# ChromaDB local database
+.chroma/
+*.chroma
+
+# MCP configuration (tracked by default).
+# To ignore it, uncomment the next line:
+# .mcp.json
+
+# Memory exports (optional - track for history)
+claudedocs/*.md
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp

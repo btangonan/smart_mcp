@@ -1,0 +1,16 @@
+[project]
+name = "smart-mcp"
+version = "0.1.0"
+description = "Dead simple MCP server for custom instruction shortcuts"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=1.0.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project.scripts]
+smart-mcp = "smart_mcp:main"

@@ -1,0 +1,23 @@
+{
+  "mcpServers": {
+    "smart-mcp": {
+      "type": "stdio",
+      "command": "/Users/bradleytangonan/miniconda3/bin/python3",
+      "args": ["/Users/bradleytangonan/Desktop/my apps/smart_mcp/smart_mcp.py"],
+      "env": {}
+    },
+    "chroma": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["-qq", "chroma-mcp", "--client-type", "persistent", "--data-dir", "/Users/bradleytangonan/Desktop/my apps/smart_mcp/.chroma"],
+      "env": {
+        "ANONYMIZED_TELEMETRY": "FALSE",
+        "PYTHONUNBUFFERED": "1",
+        "TOKENIZERS_PARALLELISM": "False",
+        "CHROMA_SERVER_KEEP_ALIVE": "0",
+        "CHROMA_CLIENT_TIMEOUT": "0"
+      },
+      "initializationOptions": {"timeout": 0, "keepAlive": true, "retryAttempts": 5}
+    }
+  }
+}
