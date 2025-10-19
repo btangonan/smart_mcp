@@ -40,13 +40,29 @@ pip install mcp
 
 ### Installation
 
-1. **Global Setup** (Already Done if you're reading this):
+#### Option 1: Automated Install (Recommended)
+
+```bash
+# Clone the repository
+git clone https://github.com/btangonan/smart_mcp.git
+cd smart_mcp
+
+# Install global files to ~/.claude/
+./scripts/install.sh
+
+# Configure Claude Desktop (see step 2 below)
+```
+
+#### Option 2: Manual Setup
+
+1. **Global Setup**:
    ```bash
-   # Files should exist at:
+   # Manually copy files to:
    ~/.claude/smart_mcp/shortcuts.json
    ~/.claude/commands/sm/refactor.md
    ~/.claude/commands/sm/debug.md
    ~/.claude/commands/sm/audit.md
+   ~/.claude/commands/sm/introspect.md
    ~/.claude/MCP_SmartMCP.md
    ```
 
@@ -93,6 +109,9 @@ Use from ANY directory after setup:
 
 # Repository assessment (8-stage audit)
 /sm:audit
+
+# Meta-cognitive solution soundness analysis
+/sm:introspect authentication bug
 ```
 
 **Note**: These commands appear as "gitignored" in `/help`, indicating they're global.
@@ -114,6 +133,7 @@ You: "Run the 'refactor' shortcut on authentication logic"
 - **refactor** - Surgical refactoring with golden-master testing, fitness functions, and strangler patterns
 - **debug** - World-class codebase auditor with 7-step structured process (supports `{task}` variable)
 - **audit** - Comprehensive repository self-assessment sweep with maturity scoring (8-stage analysis)
+- **introspect** - Meta-cognitive solution soundness analysis with naive-agent perspective (evaluates if solving RIGHT problem)
 
 ## Variable Substitution
 
@@ -213,16 +233,89 @@ Edit `shortcuts.json` to add your own shortcuts:
 /sm:deploy     # Project-only (via tool invocation)
 ```
 
+## Backup & Sync Scripts
+
+Smart MCP includes scripts to manage your global configuration files:
+
+### Backup Script
+
+Save changes from `~/.claude/` back to the repo:
+
+```bash
+# Backup current global files
+./scripts/backup.sh
+
+# Backup and auto-commit
+./scripts/backup.sh --commit
+
+# Preview what would be backed up
+./scripts/backup.sh --dry-run
+```
+
+**Use case**: You edited slash commands directly in `~/.claude/commands/sm/` and want to version control those changes.
+
+### Install Script
+
+Install/restore global files from the repo:
+
+```bash
+# Install global files to ~/.claude/
+./scripts/install.sh
+
+# Force overwrite existing files
+./scripts/install.sh --force
+
+# Preview what would be installed
+./scripts/install.sh --dry-run
+```
+
+**Use case**: New machine setup, or restoring from version control.
+
+### Sync Script
+
+Bidirectional sync with conflict detection:
+
+```bash
+# Check for conflicts
+./scripts/sync.sh
+
+# Sync from ~/.claude/ to repo (backup)
+./scripts/sync.sh --to-global
+
+# Sync from repo to ~/.claude/ (install)
+./scripts/sync.sh --to-claude
+
+# Force sync in specified direction
+./scripts/sync.sh --to-global --force
+```
+
+**Use case**: Working across multiple machines or keeping global files in sync.
+
+### Recommended Workflow
+
+1. **After changing global files**: `./scripts/backup.sh --commit`
+2. **On new machine**: `./scripts/install.sh`
+3. **Check sync status**: `./scripts/sync.sh`
+4. **Resolve conflicts**: `./scripts/sync.sh --to-global` or `--to-claude`
+
 ## File Structure
 
 ```
 smart_mcp/
-├── smart_mcp.py       # Main MCP server implementation
-├── shortcuts.json     # Shortcut definitions (customize this!)
-├── pyproject.toml     # Python project configuration
-├── .mcp.json          # Local MCP server configuration
-├── README.md          # This file
-└── CLAUDE.md          # Project memory contract
+├── global/                  # Canonical global files (version controlled)
+│   ├── commands/sm/         # Global slash commands
+│   ├── smart_mcp/           # Shortcuts configuration
+│   └── MCP_SmartMCP.md      # MCP documentation
+├── scripts/                 # Management scripts
+│   ├── install.sh           # Install global files
+│   ├── backup.sh            # Backup global files
+│   └── sync.sh              # Bidirectional sync
+├── smart_mcp.py             # Main MCP server implementation
+├── shortcuts.json           # Project-local example
+├── pyproject.toml           # Python project configuration
+├── .mcp.json                # Local MCP server configuration
+├── README.md                # This file
+└── CLAUDE.md                # Project memory contract
 ```
 
 ## Development
