@@ -2,401 +2,457 @@
 
 SuperClaude-style global MCP framework for custom instruction shortcuts. Create reusable command shortcuts that work from ANY directory.
 
-## Current Status
+## What is Smart MCP?
 
-**✅ Production Ready - All Skills Validated (2025-10-22)**
+Smart MCP is a Model Context Protocol (MCP) server that provides:
 
-| Component | Status | Validation | Details |
-|-----------|--------|------------|---------|
-| **Core System** | ✅ Operational | 100% Complete | Smart MCP server + 4 slash commands |
-| **quality-gate** | ✅ Ready | Day 1 Complete | 269 lines, enforces ≥8.0 standards |
-| **context-builder** | ✅ Ready | Day 2 Complete | 311 lines, session continuity |
-| **smart-mcp-coach** | ✅ Ready | Day 3 Complete | 298 lines, 18/18 tests passing |
-| **tool-selector** | ✅ Ready | **Day 4 Complete (100%)** | 310 lines, intelligent routing |
+1. **Slash Commands** - Global `/sm:*` commands accessible from any directory
+2. **Smart Tool** - `sm` MCP tool for executing custom instruction shortcuts
+3. **Hierarchical Configuration** - Global defaults with project-specific overrides
 
-**Latest Achievement**: tool-selector validated with **100% routing accuracy** (exceeded 80% target by +20%)
+## Current Implementation
 
-**Documentation**:
-- Validation Report: `/docs/PATH_A_VALIDATION_COMPLETE.md`
-- Test Results: `/tests/tool-selector-validation.md`
-- Monitoring Framework: `/docs/WEEK4_MONITORING_FRAMEWORK.md`
-- Implementation Plan: `/docs/INTEGRATED-LEAN-PLAN.md` (Days 1-4 COMPLETE)
+| Component | Status | Lines | Description |
+|-----------|--------|-------|-------------|
+| **MCP Server** | ✅ Production | ~100 | Python server with hierarchical shortcuts loading |
+| **/sm:refactor** | ✅ Ready | 183 lines | Surgical refactoring with golden-master testing |
+| **/sm:debug** | ✅ Ready | 129 lines | 7-step systematic debugging process |
+| **/sm:audit** | ✅ Ready | 204 lines | 8-stage repository assessment |
+| **/sm:introspect** | ✅ Ready | 247 lines | Meta-cognitive solution analysis |
 
-**Next Phase**: Week 4+ monitoring and continuous improvement
-
----
+**Latest Update**: Fixed /sm:introspect synchronization bug - all 4 commands now fully global (2025-11-06)
 
 ## Features
 
-- **Global Architecture**: Works from any directory once configured (SuperClaude-style)
+- **Global Architecture**: Works from any directory once configured
 - **Hierarchical Shortcuts**: Global defaults + project-specific overrides
 - **Single Tool Interface**: All shortcuts accessible via one `sm` tool
 - **Slash Commands**: `/sm:refactor`, `/sm:debug`, `/sm:audit`, `/sm:introspect` work everywhere
-- **Claude Skills Integration**: 4 production-ready skills for intelligent workflow automation
 - **JSON-Based Storage**: Easy to read and edit shortcut definitions
 - **Variable Substitution**: Use `{task}`, `{file}`, `{context}`, or `{target}` placeholders
-- **Chroma Integration**: Persistent memory and learning from past outcomes
-- **Evidence-Based Routing**: Tool recommendations backed by historical data
 - **Extensible**: Add global or project-specific shortcuts
 
-## Global Architecture
+## Architecture
+
+### Dual-Interface System
+
+Smart MCP uses a **two-stage architecture** combining Claude Code slash commands with an MCP server:
 
 ```
-~/.claude/
+┌─────────────────────────────────────────────┐
+│ Stage 1: Slash Commands (.md files)         │
+│ Location: ~/.claude/commands/sm/*.md       │
+│ Purpose: Discovery, documentation, metadata │
+└─────────────────────────────────────────────┘
+                    ↓
+┌─────────────────────────────────────────────┐
+│ Stage 2: MCP Server (shortcuts.json)        │
+│ Location: ~/.claude/smart_mcp/shortcuts.json│
+│ Purpose: Instruction storage, variables     │
+└─────────────────────────────────────────────┘
+```
+
+### File Structure
+
+```
+~/.claude/                           # Global SuperClaude configuration
 ├── smart_mcp/
-│   └── shortcuts.json           # Global shortcuts (work everywhere)
+│   └── shortcuts.json              # Global instruction storage (REQUIRED)
 ├── commands/sm/
-│   ├── refactor.md              # /sm:refactor command
-│   ├── debug.md                 # /sm:debug command
-│   └── audit.md                 # /sm:audit command
-└── MCP_SmartMCP.md              # Integration documentation
+│   ├── refactor.md                 # /sm:refactor interface (REQUIRED)
+│   ├── debug.md                    # /sm:debug interface (REQUIRED)
+│   ├── audit.md                    # /sm:audit interface (REQUIRED)
+│   └── introspect.md               # /sm:introspect interface (REQUIRED)
+├── MCP_SmartMCP.md                 # Integration documentation
+└── CLAUDE.md                       # Global working contract
 
 Project (Optional Override):
-$CWD/shortcuts.json              # Project-specific shortcuts
+$CWD/shortcuts.json                 # Project-specific shortcuts
 ```
+
+### Synchronization Requirement
+
+**CRITICAL**: Both components must be deployed together:
+- ✅ `.md file` in `~/.claude/commands/sm/` (interface)
+- ✅ Entry in `~/.claude/smart_mcp/shortcuts.json` (implementation)
+
+Missing either component will cause the command to fail.
 
 **Merge Strategy**: Project-local shortcuts override global (like .gitignore)
 
 ## Quick Start
 
-### Prerequisites
-
-```bash
-pip install mcp
-```
-
 ### Installation
 
-#### Option 1: Automated Install (Recommended)
-
+1. **Install the MCP server**:
 ```bash
-# Clone the repository
 git clone https://github.com/btangonan/smart_mcp.git
 cd smart_mcp
-
-# Install global files to ~/.claude/
 ./scripts/install.sh
-
-# Configure Claude Desktop (see step 2 below)
 ```
 
-#### Option 2: Manual Setup
+2. **Configure Claude Desktop**:
+```json
+{
+  "mcpServers": {
+    "smart-mcp": {
+      "type": "stdio",
+      "command": "python3",
+      "args": ["/absolute/path/to/smart_mcp/smart_mcp.py"],
+      "env": {}
+    }
+  }
+}
+```
 
-1. **Global Setup**:
-   ```bash
-   # Manually copy files to:
-   ~/.claude/smart_mcp/shortcuts.json
-   ~/.claude/commands/sm/refactor.md
-   ~/.claude/commands/sm/debug.md
-   ~/.claude/commands/sm/audit.md
-   ~/.claude/commands/sm/introspect.md
-   ~/.claude/MCP_SmartMCP.md
+3. **Restart Claude Desktop**
+
+### Usage
+
+#### Slash Commands (Global)
+```
+/sm:refactor auth.ts           # Surgical refactoring with testing
+/sm:debug login-error          # 7-step debugging process
+/sm:audit                      # Repository assessment
+/sm:introspect                 # Meta-cognitive analysis
+```
+
+#### Smart Tool (Via MCP)
+```javascript
+// In Claude Code conversations
+sm { "shortcut": "refactor", "context": "auth.ts" }
+sm { "shortcut": "debug", "context": "login-error" }
+```
+
+## Available Commands
+
+### /sm:refactor
+**Purpose**: Surgical refactoring with golden-master testing and fitness functions
+
+**Use When**:
+- Need to improve code quality without changing behavior
+- Want systematic refactoring with safety validation
+- Reducing technical debt methodically
+
+**Key Features**:
+- Pre/post behavior capture for safety
+- Fitness functions for quality metrics
+- Incremental improvements with validation
+
+### /sm:debug
+**Purpose**: 7-step systematic debugging process
+
+**Use When**:
+- Facing complex bugs or unexpected behavior
+- Need structured approach to problem-solving
+- Want to avoid debugging anti-patterns
+
+**Key Features**:
+- Evidence-based hypothesis generation
+- Systematic root cause analysis
+- Solution validation framework
+
+### /sm:audit
+**Purpose**: 8-stage comprehensive repository assessment
+
+**Use When**:
+- Need to assess codebase health
+- Preparing for technical debt reduction
+- Evaluating project maturity
+
+**Key Features**:
+- LOC discipline analysis
+- Validation coverage assessment
+- Secrets hygiene scanning
+- Maturity scoring (0-3 scale)
+
+### /sm:introspect
+**Purpose**: Meta-cognitive analysis for solution soundness evaluation
+
+**Use When**:
+- Unsure if solving the RIGHT problem
+- Need to validate approach before implementation
+- Want to detect cognitive biases
+
+**Key Features**:
+- Naive-agent perspective reset
+- Alternative hypothesis generation (min 3)
+- Cognitive bias detection
+- Soundness scoring with recommendations
+
+## Configuration
+
+### Global Shortcuts
+
+Located at `~/.claude/smart_mcp/shortcuts.json`:
+
+```json
+{
+  "shortcuts": {
+    "refactor": {
+      "description": "Surgical refactoring with golden-master testing",
+      "instruction": "..."
+    },
+    "debug": {
+      "description": "7-step debugging process",
+      "instruction": "..."
+    },
+    "audit": {
+      "description": "Repository assessment",
+      "instruction": "..."
+    },
+    "introspect": {
+      "description": "Meta-cognitive analysis",
+      "instruction": "..."
+    }
+  }
+}
+```
+
+### Project-Specific Shortcuts
+
+Create `shortcuts.json` in your project directory:
+
+```json
+{
+  "shortcuts": {
+    "deploy": {
+      "description": "Deploy to staging",
+      "instruction": "Deploy {target} to staging environment with pre-flight checks"
+    },
+    "refactor": {
+      "description": "Custom refactor for this project",
+      "instruction": "Project-specific refactoring rules..."
+    }
+  }
+}
+```
+
+**Merge Behavior**:
+- `deploy` - Available only in this project (new shortcut)
+- `refactor` - Uses project version (overrides global)
+- `debug`, `audit`, `introspect` - Use global versions (no override)
+
+## Management Scripts
+
+### Backup Global Files
+```bash
+./scripts/backup.sh              # Copy ~/.claude/ → global/
+./scripts/backup.sh --commit     # Backup and auto-commit
+./scripts/backup.sh --dry-run    # Preview changes
+```
+
+### Install Global Files
+```bash
+./scripts/install.sh             # Copy global/ → ~/.claude/
+./scripts/install.sh --force     # Overwrite without prompt
+./scripts/install.sh --dry-run   # Preview installation
+```
+
+### Sync and Check Status
+```bash
+./scripts/sync.sh                # Check sync status
+./scripts/sync.sh --to-global    # Force ~/.claude/ → global/
+./scripts/sync.sh --to-claude    # Force global/ → ~/.claude/
+```
+
+## Documentation
+
+- **[FOR_FUTURE_CLAUDE.md](docs/FOR_FUTURE_CLAUDE.md)** - Complete system overview for new agents
+- **[GLOBAL_SETUP.md](docs/GLOBAL_SETUP.md)** - Detailed installation and setup guide
+- **[IMPLEMENTATION_SUMMARY.md](docs/IMPLEMENTATION_SUMMARY.md)** - Technical architecture details
+
+## Troubleshooting
+
+### Slash commands not appearing
+
+**Problem**: `/sm:refactor` shows "command not found"
+
+**Solution**:
+```bash
+# Verify files exist
+ls ~/.claude/commands/sm/
+
+# Should show: audit.md, debug.md, introspect.md, refactor.md
+# If missing, run: ./scripts/install.sh
+```
+
+### MCP tool not available
+
+**Problem**: `sm` tool returns "No such tool available"
+
+**Solution**:
+1. Check Claude Desktop config has correct absolute path to `smart_mcp.py`
+2. Restart Claude Desktop completely
+3. Start new Claude Code session
+4. If still failing, check MCP server logs
+
+### Shortcuts not loading
+
+**Problem**: `sm` tool works but returns empty or old shortcuts
+
+**Solution**:
+```bash
+# Verify shortcuts.json exists
+cat ~/.claude/smart_mcp/shortcuts.json
+
+# Check for JSON syntax errors
+python3 -m json.tool ~/.claude/smart_mcp/shortcuts.json
+
+# If corrupted, restore from repo
+./scripts/install.sh --force
+```
+
+### Chroma MCP race condition
+
+**Problem**: First Chroma call fails with "No such tool available"
+
+**Solution**: This is handled automatically by global CLAUDE.md Session Lifecycle rules - waits 2 seconds and retries once. If persists, verify Chroma MCP server is configured in Claude Desktop.
+
+## Development
+
+### Project Structure
+
+```
+smart_mcp/
+├── smart_mcp.py               # MCP server with hierarchical loading
+├── shortcuts.json             # Example/override shortcuts
+├── CLAUDE.md                  # Project-specific contract
+├── README.md                  # This file
+├── .claude/
+│   └── commands/sm/           # Reference commands (deprecated)
+├── global/                    # Version-controlled global files
+│   ├── CLAUDE.md              # Global SuperClaude framework
+│   ├── commands/sm/           # Canonical slash commands
+│   ├── smart_mcp/shortcuts.json
+│   └── MCP_SmartMCP.md
+├── scripts/                   # Management scripts
+│   ├── install.sh
+│   ├── backup.sh
+│   └── sync.sh
+├── docs/                      # Documentation
+└── archive/                   # Obsolete planning documents
+```
+
+### Adding New Slash Commands
+
+**IMPORTANT**: Both `.md` file AND `shortcuts.json` entry are required. Missing either breaks the command.
+
+**Step-by-Step Process**:
+
+1. **Create .md file**: `global/commands/sm/commandname.md`
+   ```yaml
+   ---
+   name: commandname
+   description: "Brief one-line description"
+   category: gitignored
+   complexity: basic|intermediate|advanced
+   mcp-servers: [sequential, chroma]
+   personas: [architect, auditor]
+   ---
+
+   # Documentation sections
+   # See existing commands for template
+
+   ## Invocation
+   This command executes: `Use the sm tool with shortcut='commandname' and context='$ARGS'`
    ```
 
-2. **Configure Claude Desktop**:
-
-   Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
+2. **Add to shortcuts.json**: `global/smart_mcp/shortcuts.json`
    ```json
    {
-     "mcpServers": {
-       "smart-mcp": {
-         "type": "stdio",
-         "command": "python3",
-         "args": ["/Users/bradleytangonan/Desktop/my apps/smart_mcp/smart_mcp.py"],
-         "env": {}
+     "shortcuts": {
+       "commandname": {
+         "description": "Same as .md description",
+         "instruction": "Full instruction framework with {task} {context} placeholders"
        }
      }
    }
    ```
 
-   **Important**: Update the path to wherever you cloned this repo.
+3. **Deploy**: `./scripts/install.sh` (copies to ~/.claude/)
 
-3. **Restart Claude Desktop**
+4. **Verify**:
+   ```bash
+   ls ~/.claude/commands/sm/commandname.md
+   grep "commandname" ~/.claude/smart_mcp/shortcuts.json
 
-4. **Verify Installation**:
+   # CRITICAL: Test from outside repo to verify global deployment
+   cd /tmp && /sm:commandname test
    ```
-   # From ANY directory
-   /sm:audit
-   ```
 
-See **[docs/GLOBAL_SETUP.md](docs/GLOBAL_SETUP.md)** for detailed setup instructions.
+5. **Commit**: `./scripts/backup.sh --commit`
 
-## Usage
+**Project-Local Shortcut** (override global):
+1. Create `shortcuts.json` in project directory
+2. Add shortcuts (same format as global)
+3. Project shortcuts override global (hierarchical merge)
 
-### Global Slash Commands (Work Everywhere)
+### Creating Slash Commands
 
-Use from ANY directory after setup:
-
-```bash
-# Surgical refactoring with golden-master testing
-/sm:refactor authentication logic
-
-# Systematic debugging (7-step process)
-/sm:debug fix authentication timeout in login.py
-
-# Repository assessment (8-stage audit)
-/sm:audit
-
-# Meta-cognitive solution soundness analysis
-/sm:introspect authentication bug
+1. Create markdown file in `~/.claude/commands/sm/`
+2. Add YAML frontmatter:
+```yaml
+---
+tags: project, gitignored
+---
 ```
-
-**Note**: These commands appear as "gitignored" in `/help`, indicating they're global.
-
-### Method 2: Direct Tool Invocation
-
-Smart MCP provides a single tool called `sm` that executes predefined instruction shortcuts.
-
-**Example conversations:**
-
-```
-You: "Use the sm tool with shortcut 'debug' and context 'fix authentication timeout'"
-
-You: "Run the 'refactor' shortcut on authentication logic"
-```
-
-### Available Shortcuts
-
-- **refactor** - Surgical refactoring with golden-master testing, fitness functions, and strangler patterns
-- **debug** - World-class codebase auditor with 7-step structured process (supports `{task}` variable)
-- **audit** - Comprehensive repository self-assessment sweep with maturity scoring (8-stage analysis)
-- **introspect** - Meta-cognitive solution soundness analysis with naive-agent perspective (evaluates if solving RIGHT problem)
-
-## Variable Substitution
-
-Shortcuts support variable placeholders that get replaced with the `context` parameter:
-
-**Supported placeholders:**
-- `{task}` - Replaced with context value
-- `{file}` - Replaced with context value
-- `{context}` - Replaced with context value
-- `{target}` - Replaced with context value
-
-**Example usage:**
-
-```
-You: "Use the sm tool with shortcut='debug' and context='fix authentication timeout in login.py'"
-```
-
-This replaces `{task}` in the debug instruction with "fix authentication timeout in login.py".
-
-**Example shortcut with variable:**
-
-```json
-{
-  "shortcuts": {
-    "analyze": {
-      "description": "Analyze specific code aspect",
-      "instruction": "Perform a detailed analysis of {task}. Focus on edge cases, potential bugs, and optimization opportunities."
-    }
-  }
-}
-```
-
-When invoked: `sm tool with shortcut='analyze' and context='error handling in database queries'`
-
-Result: "Perform a detailed analysis of error handling in database queries. Focus on edge cases, potential bugs, and optimization opportunities."
-
-## Customizing Shortcuts
-
-Edit `shortcuts.json` to add your own shortcuts:
-
-```json
-{
-  "shortcuts": {
-    "your-shortcut": {
-      "description": "Brief description shown in tool listing",
-      "instruction": "Detailed instruction text that Claude will receive when this shortcut is invoked.\n\nCan be multi-line with formatting."
-    }
-  }
-}
-```
-
-**Example - Project-Specific Shortcut:**
-
-```json
-{
-  "shortcuts": {
-    "api-review": {
-      "description": "Review API endpoint for our company standards",
-      "instruction": "Review this API endpoint ensuring:\n- Rate limiting is implemented\n- Authentication uses our OAuth2 flow\n- Response follows our standard JSON format\n- Error handling returns appropriate status codes\n- Logging includes request ID for tracing"
-    }
-  }
-}
-```
-
-## How It Works
-
-1. **Tool Registration**: Smart MCP registers a single tool `sm` with Claude
-2. **Hierarchical Loading**:
-   - First loads `~/.claude/smart_mcp/shortcuts.json` (global defaults)
-   - Then loads `$CWD/shortcuts.json` (project overrides, if exists)
-   - Merges with project-local taking precedence
-3. **Execution**: When invoked, returns the instruction text for the requested shortcut
-4. **Claude Processing**: Claude uses the instruction as context for the conversation
-
-## Hierarchical Shortcuts
-
-**Global Shortcuts** (`~/.claude/smart_mcp/shortcuts.json`):
-- Work from ANY directory
-- Shared across all projects
-- Default shortcuts: `refactor`, `debug`, `audit`
-
-**Project Shortcuts** (`$CWD/shortcuts.json`):
-- Optional, only in specific projects
-- Override global shortcuts with same name
-- Add new project-specific shortcuts
-
-**Example**:
-```bash
-# Global has: refactor, debug, audit
-# Project adds: deploy
-# Project overrides: refactor (custom version)
-
-# Available in project:
-/sm:refactor   # Uses project version
-/sm:debug      # Uses global version
-/sm:audit      # Uses global version
-/sm:deploy     # Project-only (via tool invocation)
-```
-
-## Backup & Sync Scripts
-
-Smart MCP includes scripts to manage your global configuration files:
-
-### Backup Script
-
-Save changes from `~/.claude/` back to the repo:
-
-```bash
-# Backup current global files
-./scripts/backup.sh
-
-# Backup and auto-commit
-./scripts/backup.sh --commit
-
-# Preview what would be backed up
-./scripts/backup.sh --dry-run
-```
-
-**Use case**: You edited slash commands directly in `~/.claude/commands/sm/` and want to version control those changes.
-
-### Install Script
-
-Install/restore global files from the repo:
-
-```bash
-# Install global files to ~/.claude/
-./scripts/install.sh
-
-# Force overwrite existing files
-./scripts/install.sh --force
-
-# Preview what would be installed
-./scripts/install.sh --dry-run
-```
-
-**Use case**: New machine setup, or restoring from version control.
-
-### Sync Script
-
-Bidirectional sync with conflict detection:
-
-```bash
-# Check for conflicts
-./scripts/sync.sh
-
-# Sync from ~/.claude/ to repo (backup)
-./scripts/sync.sh --to-global
-
-# Sync from repo to ~/.claude/ (install)
-./scripts/sync.sh --to-claude
-
-# Force sync in specified direction
-./scripts/sync.sh --to-global --force
-```
-
-**Use case**: Working across multiple machines or keeping global files in sync.
-
-### Recommended Workflow
-
-1. **After changing global files**: `./scripts/backup.sh --commit`
-2. **On new machine**: `./scripts/install.sh`
-3. **Check sync status**: `./scripts/sync.sh`
-4. **Resolve conflicts**: `./scripts/sync.sh --to-global` or `--to-claude`
-
-## File Structure
-
-```
-smart_mcp/
-├── global/                  # Canonical global files (version controlled)
-│   ├── commands/sm/         # Global slash commands
-│   ├── smart_mcp/           # Shortcuts configuration
-│   └── MCP_SmartMCP.md      # MCP documentation
-├── scripts/                 # Management scripts
-│   ├── install.sh           # Install global files
-│   ├── backup.sh            # Backup global files
-│   └── sync.sh              # Bidirectional sync
-├── smart_mcp.py             # Main MCP server implementation
-├── shortcuts.json           # Project-local example
-├── pyproject.toml           # Python project configuration
-├── .mcp.json                # Local MCP server configuration
-├── README.md                # This file
-└── CLAUDE.md                # Project memory contract
-```
-
-## Development
-
-### Adding New Shortcuts
-
-1. Edit `shortcuts.json`
-2. Add your shortcut with `description` and `instruction` fields
-3. Save the file
-4. Restart Claude Desktop (if already loaded)
-
-### Testing Shortcuts
-
-After adding a shortcut, test it in Claude:
-
-```
-You: "What shortcuts are available in the sm tool?"
-[Claude will list all shortcuts from shortcuts.json]
-
-You: "Use the sm tool with shortcut 'your-new-shortcut'"
-```
-
-## Troubleshooting
-
-**MCP server not loading:**
-- Verify Python 3.10+ is installed: `python3 --version`
-- Check MCP SDK is installed: `pip show mcp`
-- Verify file paths in configuration are absolute paths
-- Check Claude Desktop logs for errors
-
-**Shortcut not found:**
-- Verify shortcut name matches exactly (case-sensitive)
-- Check `shortcuts.json` is valid JSON (use `python3 -m json.tool shortcuts.json`)
-- Restart Claude Desktop after editing shortcuts
-
-**Tool not appearing:**
-- Restart Claude Desktop completely
-- Verify `.mcp.json` or global config has correct configuration
-- Check server name is "smart-mcp" in config
-
-## Future Enhancements
-
-Potential additions (keeping it dead simple):
-
-- ✅ ~~Variable substitution: `{file}`, `{project}` placeholders~~ (implemented!)
-- Shortcut categories/tags for organization
-- Import/export shortcut collections
-- Shortcut validation and testing
-- Multiple variable support: `{task}`, `{file}`, `{context}` in same shortcut
-
-## License
-
-MIT License - Use freely for personal or commercial projects.
+3. Write command instructions
+4. Optionally add to shortcuts.json for `sm` tool access
+
+## Benefits
+
+✅ **Global Accessibility** - Commands work from ANY directory
+✅ **SuperClaude Integration** - Follows `/sc:*` command pattern
+✅ **Hierarchical Config** - Global defaults + project overrides
+✅ **Version Controlled** - Global files backed up in repo
+✅ **Zero Duplication** - No copying commands to every project
+✅ **Extensible** - Easy to add custom shortcuts
+✅ **Maintainable** - Clear separation of global vs project config
+
+## Limitations
+
+1. **Absolute Paths Required** - Claude Desktop config needs absolute path to `smart_mcp.py`
+2. **Restart Required** - Claude Desktop restart needed for config/shortcut changes
+3. **JSON Validation** - Invalid JSON in shortcuts.json fails silently
+4. **No Hot Reload** - Shortcut changes require new Claude Code session
 
 ## Contributing
 
-This is a personal productivity tool. Fork and customize for your needs!
+1. Fork the repository
+2. Create feature branch
+3. Make changes
+4. Test with `./scripts/install.sh --dry-run`
+5. Backup and commit: `./scripts/backup.sh --commit`
+6. Submit pull request
+
+## License
+
+MIT License - See LICENSE file for details
+
+## Credits
+
+Built with the SuperClaude framework pattern for global Claude Code configuration.
+
+## Changelog
+
+### 2025-10-23
+- Added Chroma MCP race condition fix to global CLAUDE.md
+- Cleaned up documentation structure
+- Archived obsolete planning documents
+- Updated README to reflect actual implementation
+
+### 2025-10-19
+- Added `/sm:introspect` command for meta-cognitive analysis
+- Enhanced global file management with backup/sync scripts
+
+### 2025-10-17
+- Transformed to global SuperClaude-style framework
+- Implemented hierarchical shortcuts loading
+- Created global slash commands (/sm:refactor, /sm:debug, /sm:audit)
+- Added comprehensive documentation
+
+### 2025-10-16
+- Initial project creation
+- Basic MCP server implementation
+- Project-local slash commands

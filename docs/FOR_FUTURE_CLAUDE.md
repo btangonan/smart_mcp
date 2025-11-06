@@ -41,8 +41,9 @@ Smart MCP is a **global command framework** for Claude Code that provides reusab
 
 ### If User Asks to Create New Slash Command
 
-1. **Create file**: `~/.claude/commands/sm/newcommand.md`
-2. **YAML frontmatter**:
+**CRITICAL**: Both .md file AND shortcuts.json entry REQUIRED. Missing either = broken command.
+
+1. **Create .md file**: `global/commands/sm/newcommand.md`
    ```yaml
    ---
    name: newcommand
@@ -53,10 +54,39 @@ Smart MCP is a **global command framework** for Claude Code that provides reusab
    personas: [architect, qa-specialist]
    ---
    ```
-3. **Standard sections**: Triggers, Usage, Behavioral Flow, MCP Integration, Examples, Boundaries
-4. **Update shortcuts.json**: Add entry with description + instruction
-5. **Backup**: `./scripts/backup.sh --commit`
-6. **Restart Claude Desktop**
+
+2. **Standard sections**: Triggers, Usage, Behavioral Flow, MCP Integration, Examples, Boundaries
+
+3. **Add Invocation section**:
+   ```
+   ## Invocation
+   This command executes: `Use the sm tool with shortcut='newcommand' and context='$ARGS'`
+   ```
+
+4. **Update shortcuts.json**: `global/smart_mcp/shortcuts.json`
+   ```json
+   {
+     "shortcuts": {
+       "newcommand": {
+         "description": "Same as .md description",
+         "instruction": "Full framework with {task} {context} placeholders"
+       }
+     }
+   }
+   ```
+
+5. **Deploy**: `./scripts/install.sh`
+
+6. **VERIFY DEPLOYMENT** (prevents synchronization bugs):
+   ```bash
+   # Test from outside repo to verify global availability
+   cd /tmp
+   python3 -c "import json; print('newcommand' in json.load(open('/Users/bradleytangonan/.claude/smart_mcp/shortcuts.json'))['shortcuts'])"
+   ```
+
+7. **Backup**: `./scripts/backup.sh --commit`
+
+8. **Restart Claude Desktop** (only if changing MCP server config, not for shortcuts)
 
 ### If User Asks About Existing Commands
 
@@ -75,11 +105,22 @@ mcp__chroma__chroma_query_documents with collection_name="smart_mcp_memory"
 
 **Troubleshooting checklist**:
 1. ✓ Check `~/.claude/commands/sm/*.md` exist
-2. ✓ Validate `shortcuts.json`: `python3 -m json.tool shortcuts.json`
-3. ✓ Verify MCP config has **absolute path** to `smart_mcp.py`
-4. ✓ Restart Claude Desktop **completely**
-5. ✓ Test with `/help` - should show `/sm:*` commands under "gitignored"
-6. ✓ Run `./scripts/sync.sh` to check file sync status
+2. ✓ Validate `shortcuts.json`: `python3 -m json.tool ~/.claude/smart_mcp/shortcuts.json`
+3. ✓ **CRITICAL**: Verify BOTH .md AND shortcuts.json entry exist
+   ```bash
+   ls ~/.claude/commands/sm/commandname.md
+   grep "commandname" ~/.claude/smart_mcp/shortcuts.json
+   ```
+4. ✓ Test from outside repo: `cd /tmp && /sm:commandname test`
+5. ✓ Verify MCP config has **absolute path** to `smart_mcp.py`
+6. ✓ Restart Claude Desktop **completely**
+7. ✓ Test with `/help` - should show `/sm:*` commands under "gitignored"
+8. ✓ Run `./scripts/sync.sh` to check file sync status
+
+**Common Bug**: Command .md exists but shortcuts.json entry missing
+- **Symptom**: Works in smart_mcp repo, fails elsewhere
+- **Cause**: Project-local shortcuts.json masks missing global entry
+- **Fix**: Add to global shortcuts.json + redeploy
 
 ### If User Wants to Backup Changes
 
@@ -226,5 +267,5 @@ After setup, verify:
 
 ---
 
-**Last Updated**: 2025-10-19
-**Version**: 1.1.0 (includes /sm:introspect + global file management)
+**Last Updated**: 2025-11-06
+**Version**: 1.2.0 (all 4 commands fully global, synchronization bug fixed)
